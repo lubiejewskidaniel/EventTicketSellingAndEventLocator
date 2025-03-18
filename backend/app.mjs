@@ -5,7 +5,7 @@ import { fileURLToPath } from "url"; // Converts module URLs to file paths
 import bodyParser from "body-parser"; // Middleware to parse incoming JSON data
 
 // Imported  routes  for API endpoints.
-import eventsRoutes from "./routes/eventsRoutes.mjs"; // Routes for event API calls
+import eventsRoutes from "./routes/eventsRoute.mjs"; // Routes for event API calls
 
 // As per ES6 getting setting up absolute path
 const __filename = fileURLToPath(import.meta.url);
