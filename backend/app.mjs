@@ -14,10 +14,10 @@ const __dirname = path.dirname(__filename); // Extracts the directory name of th
 // Initializing Express application
 const app = express();
 
-// Using middleware to parse JSON data
+// Using middleware to parse JSON data to prepare correctly data for further use as an object
 app.use(bodyParser.json());
 
-// Connect routes to the Express app
+// Connects routes to my Express app
 app.use("/events", eventsRoutes); // Handles API requests for events
 
 // Choosing port where the server will run
