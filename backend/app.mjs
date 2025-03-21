@@ -22,8 +22,7 @@ app.use("/events", eventsRoutes); // Handles API requests for events
 
 // Choosing port where the server will run
 const PORT = 5000;
-
 // Starts server and listens for requests on the specified above port
 app.listen(PORT, () => {
-	console.log(`Server running at http://localhost:${PORT}`); // Log the server URL to the console partialy for debuging
+	console.log(`Server running at http://localhost:${PORT}`); // Log the server URL to the console - partialy for debuging
 });
