@@ -25,8 +25,8 @@ export const fetchEvents = (req, res) => {
 	} catch (error) {
 		// Handle any unexpected server/database errors
 		console.error("Error fetching events:", error);
-		res
-			.status(500)
-			.json({ message: "An error happened while retrieving events." });
+		res.status(500).json({
+			message: "An error happened while retrieving events from database.",
+		});
 	}
 };

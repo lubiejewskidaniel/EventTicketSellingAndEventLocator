@@ -9,6 +9,8 @@ const dbPath = path.join(__dirname, "../../database/eventease.db");
 const db = new Database(dbPath);
 
 export const getTicketsForEvent = (eventID) => {
-	const stmt = db.prepare("SELECT * FROM tickets WHERE eventID = ?");
+	const stmt = db.prepare(
+		"SELECT ticketType, price, availability FROM tickets WHERE eventID = ?"
+	);
 	return stmt.all(eventID);
 };
