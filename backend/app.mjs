@@ -7,6 +7,7 @@ import bodyParser from "body-parser"; // Middleware to parse incoming JSON data
 // Imported  routes  for API endpoints.
 import eventsRoutes from "./routes/eventsRoute.mjs"; // Routes for event API calls
 import ticketsRoute from "./routes/ticketsRoute.mjs"; // Routes for ticket API calls
+import bookingsRoutes from "./routes/bookingsRoutes.mjs"; // Routes for bookings API calls
 
 // As per ES6 getting setting up absolute path
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 // Connects routes to my Express app
 app.use("/events", eventsRoutes); // Handles API requests for events
 app.use("/tickets", ticketsRoute); // Handles API requests for ticket
+app.use("/bookings", bookingsRoutes); // Handles API requests for bookings
 
 // Choosing port where the server will run
 const PORT = 5000;
