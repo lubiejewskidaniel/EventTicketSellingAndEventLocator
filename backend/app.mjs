@@ -7,7 +7,7 @@ import bodyParser from "body-parser"; // Middleware to parse incoming JSON data
 // Imported  routes  for API endpoints.
 import eventsRoutes from "./routes/eventsRoute.mjs"; // Routes for event API calls
 import ticketsRoute from "./routes/ticketsRoute.mjs"; // Routes for ticket API calls
-import bookingsRoutes from "./routes/bookingsRoutes.mjs"; // Routes for bookings API calls
+import bookingsRoutes from "./routes/bookingsRoute.mjs"; // Routes for bookings API calls
 
 // As per ES6 getting setting up absolute path
 const __filename = fileURLToPath(import.meta.url);
@@ -18,6 +18,7 @@ const app = express();
 
 // Using middleware to parse JSON data to prepare correctly data for further use as an object
 app.use(bodyParser.json());
+app.use(cors()); // Enable CORS, allows requests from any domain
 
 // Connects routes to my Express app
 app.use("/events", eventsRoutes); // Handles API requests for events
