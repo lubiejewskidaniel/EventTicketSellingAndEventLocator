@@ -9,6 +9,7 @@ import cors from "cors"; // Imports CORS to allow cross-origin requests
 import eventsRoutes from "./routes/eventsRoute.mjs"; // Routes for event API calls
 import ticketsRoute from "./routes/ticketsRoute.mjs"; // Routes for ticket API calls
 import bookingsRoutes from "./routes/bookingsRoute.mjs"; // Routes for bookings API calls
+import usersRoute from "./routes/usersRoute.mjs"; // Routes for user API calls
 
 // As per ES6 getting setting up absolute path
 const __filename = fileURLToPath(import.meta.url);
@@ -25,6 +26,7 @@ app.use(cors()); // Enable CORS, allows requests from any domain
 app.use("/events", eventsRoutes); // Handles API requests for events
 app.use("/tickets", ticketsRoute); // Handles API requests for ticket
 app.use("/bookings", bookingsRoutes); // Handles API requests for bookings
+app.use("/users", usersRoute); // Handles API requests for bookings
 
 // Choosing port where the server will run
 const PORT = 5000;
