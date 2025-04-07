@@ -1,8 +1,8 @@
 import express from "express";
-import { fetchUser } from "../controllers/userController.mjs";
+import { loginUser } from "../controllers/userController.mjs";
 
 const router = express.Router();
 
-router.get("/:username", fetchUser); // Route to get user by username
+router.post("/login", loginUser);
 
 export default router;
