@@ -3,6 +3,7 @@ import express from "express"; // Express framework to handle HTTP requests
 import path from "path"; // Path module to manage file paths
 import { fileURLToPath } from "url"; // Converts module URLs to file paths
 import bodyParser from "body-parser"; // Middleware to parse incoming JSON data
+import cors from "cors"; // Imports CORS to allow cross-origin requests
 
 // Imported  routes  for API endpoints.
 import eventsRoutes from "./routes/eventsRoute.mjs"; // Routes for event API calls
