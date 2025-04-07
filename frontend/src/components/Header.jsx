@@ -15,7 +15,7 @@ export default function Header({ onLogin }) {
 
 	// Detect screen size
 	useEffect(() => {
-		const checkSize = () => setIsMobile(window.innerWidth <= 750);
+		const checkSize = () => setIsMobile(window.innerWidth <= 860);
 		checkSize();
 		window.addEventListener("resize", checkSize);
 		return () => window.removeEventListener("resize", checkSize);
@@ -24,7 +24,7 @@ export default function Header({ onLogin }) {
 	const styles = {
 		header: {
 			display: "flex",
-			flexDirection: isMobile ? "column" : "row", // 💡 stack vertically on small screens
+			flexDirection: isMobile ? "column" : "row", // stack vertically on small screens
 			justifyContent: "space-between",
 			alignItems: isMobile ? "flex-start" : "center",
 			padding: isMobile ? "20px" : "20px 40px",
@@ -34,13 +34,16 @@ export default function Header({ onLogin }) {
 			gap: isMobile ? "20px" : "0px",
 		},
 		title: {
-			fontSize: "28px",
+			textAlign: isMobile ? "center" : "left", //
+			width: isMobile ? "100%" : "auto", //
+			fontSize: "16px",
 			color: "#333",
 			margin: 0,
+			padding: 10,
 		},
 		form: {
 			display: "flex",
-			flexDirection: isMobile ? "column" : "row", // 💡 stack inputs/buttons vertically on mobile
+			flexDirection: isMobile ? "column" : "row", // stack inputs/buttons vertically on mobile
 			alignItems: isMobile ? "stretch" : "center",
 			width: isMobile ? "100%" : "auto",
 			gap: "10px",
@@ -68,7 +71,7 @@ export default function Header({ onLogin }) {
 
 	return (
 		<header style={styles.header}>
-			<h1 style={styles.title}>🎟️ EventEase</h1>
+			<h1 style={styles.title}>🎟️ EventEase - Local Events App</h1>
 
 			<div style={styles.form}>
 				<input

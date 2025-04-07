@@ -71,7 +71,7 @@ export default function EventSearch({ loggedInUser }) {
 		alert(result.message || "Booking attempted");
 	};
 
-	// Format date from "YYMMDD" to "DD/MM/YY"
+	// Formating date from "YYMMDD" in database to "DD/MM/YY" for better UX
 	const formatDate = (rawDate) => {
 		if (!rawDate || rawDate.length !== 6) return rawDate;
 		const year = rawDate.substring(0, 2);
@@ -102,15 +102,19 @@ export default function EventSearch({ loggedInUser }) {
 			borderRadius: "4px",
 		},
 		button: {
-			padding: "10px 20px",
+			padding: "9px 20px",
 			fontSize: "16px",
 			border: "none",
 			borderRadius: "4px",
 			cursor: "pointer",
 			transition: "background-color 0.3s",
 		},
+		searchButton: {
+			backgroundColor: "#00793f",
+			color: "#fff",
+		},
 		ticketButtonGeneral: {
-			backgroundColor: "#007bff",
+			backgroundColor: "#007eff",
 			color: "#fff",
 		},
 		ticketButtonVIP: {
@@ -162,7 +166,7 @@ export default function EventSearch({ loggedInUser }) {
 				/>
 				<button
 					onClick={searchEvents}
-					style={{ ...styles.button, ...styles.ticketButtonGeneral }}
+					style={{ ...styles.button, ...styles.searchButton }}
 				>
 					Search
 				</button>
