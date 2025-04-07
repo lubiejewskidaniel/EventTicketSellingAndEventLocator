@@ -3,13 +3,36 @@ import { useState } from "react";
 export default function EventSearch({ loggedInUser }) {
 	const [location, setLocation] = useState("");
 	const [events, setEvents] = useState([]);
+	const [message, setMessage] = useState("");
 
 	// Fetch events by location and attach tickets to each
 	const searchEvents = async () => {
-		try {
-			const res = await fetch(`http://localhost:5000/events/${location}`);
-			const eventsData = await res.json();
+		// Basic input validation
+		if (!location.trim()) {
+			setEvents([]);
+			setMessage("Please enter a location.");
+			return;
+		}
 
+		try {
+			const response = await fetch(`http://localhost:5000/events/${location}`);
+
+			if (!response.ok) {
+				setEvents([]);
+				setMessage("Location does not exist. Please type again.");
+				return;
+			}
+
+			const eventsData = await response.json();
+
+			// No events found for given location
+			if (eventsData.length === 0) {
+				setEvents([]);
+				setMessage(`No events found in "${location}".`);
+				return;
+			}
+
+			// Fetch tickets for each event
 			const eventsWithTickets = await Promise.all(
 				eventsData.map(async (event) => {
 					const ticketRes = await fetch(
@@ -21,8 +44,11 @@ export default function EventSearch({ loggedInUser }) {
 			);
 
 			setEvents(eventsWithTickets);
+			setMessage(""); // clear any previous message
 		} catch (error) {
-			console.error("Error fetching events or tickets:", error);
+			console.error("Fetch error:", error);
+			setEvents([]);
+			setMessage("Something went wrong. Please try again later.");
 		}
 	};
 
@@ -141,6 +167,10 @@ export default function EventSearch({ loggedInUser }) {
 					Search
 				</button>
 			</div>
+
+			{message && (
+				<p style={{ color: "#cc0000", marginBottom: "15px" }}>{message}</p>
+			)}
 
 			{events.length > 0 && (
 				<div>
