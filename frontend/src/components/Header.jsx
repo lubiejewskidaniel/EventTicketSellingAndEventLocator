@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Header({ onLogin }) {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [isMobile, setIsMobile] = useState(false);
 
 	const handleLogin = () => {
 		if (username && password) {
@@ -12,15 +13,25 @@ export default function Header({ onLogin }) {
 		}
 	};
 
+	// Detect screen size
+	useEffect(() => {
+		const checkSize = () => setIsMobile(window.innerWidth <= 750);
+		checkSize();
+		window.addEventListener("resize", checkSize);
+		return () => window.removeEventListener("resize", checkSize);
+	}, []);
+
 	const styles = {
 		header: {
 			display: "flex",
+			flexDirection: isMobile ? "column" : "row", // 💡 stack vertically on small screens
 			justifyContent: "space-between",
-			alignItems: "center",
-			padding: "20px 40px",
+			alignItems: isMobile ? "flex-start" : "center",
+			padding: isMobile ? "20px" : "20px 40px",
 			backgroundColor: "#ffffff",
 			boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
 			borderBottom: "1px solid #ddd",
+			gap: isMobile ? "20px" : "0px",
 		},
 		title: {
 			fontSize: "28px",
@@ -29,7 +40,9 @@ export default function Header({ onLogin }) {
 		},
 		form: {
 			display: "flex",
-			alignItems: "center",
+			flexDirection: isMobile ? "column" : "row", // 💡 stack inputs/buttons vertically on mobile
+			alignItems: isMobile ? "stretch" : "center",
+			width: isMobile ? "100%" : "auto",
 			gap: "10px",
 		},
 		input: {
@@ -38,6 +51,7 @@ export default function Header({ onLogin }) {
 			borderRadius: "4px",
 			fontSize: "14px",
 			outline: "none",
+			width: isMobile ? "100%" : "auto",
 		},
 		button: {
 			padding: "8px 16px",
@@ -48,6 +62,7 @@ export default function Header({ onLogin }) {
 			cursor: "pointer",
 			fontSize: "14px",
 			transition: "background-color 0.3s",
+			width: isMobile ? "100%" : "auto",
 		},
 	};
 

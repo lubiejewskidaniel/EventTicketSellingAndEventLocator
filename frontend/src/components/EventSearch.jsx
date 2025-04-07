@@ -4,12 +4,29 @@ export default function EventSearch({ loggedInUser }) {
 	const [location, setLocation] = useState("");
 	const [events, setEvents] = useState([]);
 
+	// Fetch events by location and attach tickets to each
 	const searchEvents = async () => {
-		const res = await fetch(`http://localhost:5000/events/${location}`);
-		const data = await res.json();
-		setEvents(data);
+		try {
+			const res = await fetch(`http://localhost:5000/events/${location}`);
+			const eventsData = await res.json();
+
+			const eventsWithTickets = await Promise.all(
+				eventsData.map(async (event) => {
+					const ticketRes = await fetch(
+						`http://localhost:5000/tickets/${event.id}`
+					);
+					const tickets = await ticketRes.json();
+					return { ...event, tickets };
+				})
+			);
+
+			setEvents(eventsWithTickets);
+		} catch (error) {
+			console.error("Error fetching events or tickets:", error);
+		}
 	};
 
+	// Book a ticket for a given event and ticket type
 	const handleBook = async (eventID, ticketType) => {
 		if (!loggedInUser) return alert("Please login first");
 
@@ -28,6 +45,15 @@ export default function EventSearch({ loggedInUser }) {
 		alert(result.message || "Booking attempted");
 	};
 
+	// Format date from "YYMMDD" to "DD/MM/YY"
+	const formatDate = (rawDate) => {
+		if (!rawDate || rawDate.length !== 6) return rawDate;
+		const year = rawDate.substring(0, 2);
+		const month = rawDate.substring(2, 4);
+		const day = rawDate.substring(4, 6);
+		return `${day}/${month}/${year}`;
+	};
+
 	const styles = {
 		container: {
 			padding: "30px",
@@ -37,12 +63,13 @@ export default function EventSearch({ loggedInUser }) {
 		},
 		form: {
 			display: "flex",
-			alignItems: "center",
+			flexWrap: "wrap",
 			gap: "10px",
 			marginBottom: "20px",
 		},
 		input: {
 			flex: "1",
+			minWidth: "200px",
 			padding: "10px",
 			fontSize: "16px",
 			border: "1px solid #ccc",
@@ -53,13 +80,20 @@ export default function EventSearch({ loggedInUser }) {
 			fontSize: "16px",
 			border: "none",
 			borderRadius: "4px",
+			cursor: "pointer",
+			transition: "background-color 0.3s",
+		},
+		ticketButtonGeneral: {
 			backgroundColor: "#007bff",
 			color: "#fff",
-			cursor: "pointer",
 		},
-		buttonSecondary: {
-			marginLeft: "10px",
+		ticketButtonVIP: {
+			backgroundColor: "#6f42c1",
+			color: "#fff",
+		},
+		ticketButtonStudent: {
 			backgroundColor: "#28a745",
+			color: "#fff",
 		},
 		eventCard: {
 			border: "1px solid #ddd",
@@ -82,6 +116,11 @@ export default function EventSearch({ loggedInUser }) {
 			color: "#888",
 			marginBottom: "10px",
 		},
+		buttonGroup: {
+			display: "flex",
+			gap: "10px",
+			flexWrap: "wrap",
+		},
 	};
 
 	return (
@@ -95,7 +134,10 @@ export default function EventSearch({ loggedInUser }) {
 					onChange={(e) => setLocation(e.target.value)}
 					style={styles.input}
 				/>
-				<button onClick={searchEvents} style={styles.button}>
+				<button
+					onClick={searchEvents}
+					style={{ ...styles.button, ...styles.ticketButtonGeneral }}
+				>
 					Search
 				</button>
 			</div>
@@ -107,20 +149,37 @@ export default function EventSearch({ loggedInUser }) {
 							<h3 style={styles.eventTitle}>{event.name}</h3>
 							<p style={styles.eventDescription}>{event.description}</p>
 							<p style={styles.eventDate}>
-								<strong>Date:</strong> {event.date}
+								<strong>Date:</strong> {formatDate(event.date)}
 							</p>
-							<button
-								onClick={() => handleBook(event.id, "General")}
-								style={styles.button}
-							>
-								Book General
-							</button>
-							<button
-								onClick={() => handleBook(event.id, "VIP")}
-								style={{ ...styles.button, ...styles.buttonSecondary }}
-							>
-								Book VIP
-							</button>
+
+							<div style={styles.buttonGroup}>
+								{event.tickets?.some((t) => t.ticketType === "General") && (
+									<button
+										onClick={() => handleBook(event.id, "General")}
+										style={{ ...styles.button, ...styles.ticketButtonGeneral }}
+									>
+										Book General ticket
+									</button>
+								)}
+
+								{event.tickets?.some((t) => t.ticketType === "VIP") && (
+									<button
+										onClick={() => handleBook(event.id, "VIP")}
+										style={{ ...styles.button, ...styles.ticketButtonVIP }}
+									>
+										Book VIP ticket
+									</button>
+								)}
+
+								{event.tickets?.some((t) => t.ticketType === "Student") && (
+									<button
+										onClick={() => handleBook(event.id, "Student")}
+										style={{ ...styles.button, ...styles.ticketButtonStudent }}
+									>
+										Book Student ticket
+									</button>
+								)}
+							</div>
 						</div>
 					))}
 				</div>
