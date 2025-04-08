@@ -7,12 +7,11 @@ export default function EventSearch({ loggedInUser }) {
 
 	// Fetch events by location and attach tickets to each
 	const searchEvents = async () => {
-		// Basic input validation
-		if (!location.trim()) {
-			setEvents([]);
-			setMessage("Please enter a location.");
-			return;
-		}
+		// if (!location.trim()) {
+		// 	setEvents([]);
+		// 	setMessage("Please enter a location.");
+		// 	return;
+		// }
 
 		try {
 			const response = await fetch(`http://localhost:5000/events/${location}`);
