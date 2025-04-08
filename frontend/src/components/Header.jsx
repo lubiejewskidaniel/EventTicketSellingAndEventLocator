@@ -5,11 +5,47 @@ export default function Header({ onLogin }) {
 	const [password, setPassword] = useState("");
 	const [isMobile, setIsMobile] = useState(false);
 
-	const handleLogin = () => {
-		if (username && password) {
-			onLogin(username);
-		} else {
+	const handleLogin = async () => {
+		if (!username || !password) {
 			alert("Please enter username and password");
+			return;
+		}
+
+		try {
+			const res = await fetch("http://localhost:5000/users/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ username, password }),
+				credentials: "include",
+			});
+
+			const data = await res.json();
+
+			if (!res.ok) {
+				alert(data.message || "Login failed");
+				return;
+			}
+
+			// Call onLogin with full user object from backend
+			const sessionResponse = await fetch(
+				"http://localhost:5000/users/session",
+				{
+					credentials: "include",
+				}
+			);
+
+			if (!sessionResponse.ok) {
+				alert("Login succeeded, but failed to fetch user session.");
+				return;
+			}
+
+			const user = await sessionResponse.json(); // { username, isAdmin }
+			onLogin(user); // ✅ pass full user object to App
+		} catch (err) {
+			console.error("Login error:", err);
+			alert("Something went wrong.");
 		}
 	};
 
