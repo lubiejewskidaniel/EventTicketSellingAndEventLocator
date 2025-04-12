@@ -7,12 +7,6 @@ export default function EventSearch({ loggedInUser }) {
 
 	// Fetch events by location and attach tickets to each
 	const searchEvents = async () => {
-		// if (!location.trim()) {
-		// 	setEvents([]);
-		// 	setMessage("Please enter a location.");
-		// 	return;
-		// }
-
 		try {
 			const response = await fetch(`http://localhost:5000/events/${location}`);
 
@@ -53,21 +47,28 @@ export default function EventSearch({ loggedInUser }) {
 
 	// Book a ticket for a given event and ticket type
 	const handleBook = async (eventID, ticketType) => {
-		if (!loggedInUser) return alert("Please login first");
+		const username = loggedInUser?.username || loggedInUser || "";
 
 		const response = await fetch("http://localhost:5000/bookings", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
+			credentials: "include",
 			body: JSON.stringify({
 				eventID,
 				ticketType,
 				quantity: 1,
-				username: loggedInUser,
+				username: username,
 			}),
 		});
 
+		if (!response.ok) {
+			const error = await response.json();
+			alert(` ${error.message}`);
+			return;
+		}
+
 		const result = await response.json();
-		alert(result.message || "Booking attempted");
+		alert(result.message || "Booking Successful");
 	};
 
 	// Formating date from "YYMMDD" in database to "DD/MM/YY" for better UX

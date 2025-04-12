@@ -42,7 +42,7 @@ export default function Welcome({ user, onLogout }) {
 			<h1 style={styles.title}>🎟️ EventEase - Local Events App</h1>
 			<p>
 				Welcome <strong>{user.username}</strong>!{" "}
-				{user.isAdmin ? "Admin panel" : "Regular user"}
+				{user.isAdmin ? "Admin panel" : "Regular user"} to work further
 			</p>
 			<button onClick={handleLogout} style={styles.logoutButton}>
 				Log out
