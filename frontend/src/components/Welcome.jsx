@@ -30,7 +30,7 @@ export default function Welcome({ user, onLogout }) {
 
 	// Logout function
 	const handleLogout = async () => {
-		await fetch("http://localhost:5000/users/logout", {
+		await fetch("http://localhost:3000/api/users/logout", {
 			method: "POST",
 			credentials: "include",
 		});

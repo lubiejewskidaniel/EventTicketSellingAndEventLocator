@@ -8,7 +8,9 @@ export default function EventSearch({ loggedInUser }) {
 	// Fetch events by location and attach tickets to each
 	const searchEvents = async () => {
 		try {
-			const response = await fetch(`http://localhost:5000/events/${location}`);
+			const response = await fetch(
+				`http://localhost:3000/api/events/${location}`
+			);
 
 			if (!response.ok) {
 				setEvents([]);
@@ -29,7 +31,7 @@ export default function EventSearch({ loggedInUser }) {
 			const eventsWithTickets = await Promise.all(
 				eventsData.map(async (event) => {
 					const ticketRes = await fetch(
-						`http://localhost:5000/tickets/${event.id}`
+						`http://localhost:3000/api/tickets/${event.id}`
 					);
 					const tickets = await ticketRes.json();
 					return { ...event, tickets };
@@ -49,7 +51,7 @@ export default function EventSearch({ loggedInUser }) {
 	const handleBook = async (eventID, ticketType) => {
 		const username = loggedInUser?.username || loggedInUser || "";
 
-		const response = await fetch("http://localhost:5000/bookings", {
+		const response = await fetch("http://localhost:3000/api/bookings", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			credentials: "include",

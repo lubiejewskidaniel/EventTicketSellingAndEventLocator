@@ -10,7 +10,7 @@ export default function App() {
 	useEffect(() => {
 		const fetchSession = async () => {
 			try {
-				const res = await fetch("http://localhost:5000/users/session", {
+				const res = await fetch("http://localhost:3000/users/session", {
 					credentials: "include",
 				});
 				if (res.ok) {
