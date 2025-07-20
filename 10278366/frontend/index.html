@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventEase - Local Events App</title>
+
+  <meta name="description" content="Web page about nearest available Events">
+  <meta name="keywords" content="Msic Events, Art, Sport, Fun, ">
+  <meta name="author" content="EventEase">
+
+  <!-- leaflet css stylesheet to work properly wirh its maps nad display them correctly -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    /* Reset default browser styles to keep all fresh and adjusted in my own way */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f3f3ff;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: #222;
+      margin-bottom: 15px;
+    }
+
+    input,
+    button {
+      font-family: inherit;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- div below is like a container where will be react app injected when stratedt -->
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
