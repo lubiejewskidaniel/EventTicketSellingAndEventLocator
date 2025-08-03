@@ -2,7 +2,7 @@
 import express from "express";
 
 // Middleware libraries
-import bodyParser from "body-parser";
+import bodyParser from "./middlewares/bodyParser.mjs";
 import corsMiddleware from "./middlewares/cors.mjs";
 
 // Import the modularized CORS middleware from the middlewares directory
@@ -18,14 +18,10 @@ import usersRoute from "./routes/usersRoute.mjs";
 export function createApp() {
 	const app = express();
 
-	// Middleware for parsing JSON
-	app.use(bodyParser.json());
-
-	// Modularized session middleware
-	app.use(sessionMiddleware);
-	// Enable CORS for incoming requests
-	// (e.g., from the frontend running on localhost:5173)
-	app.use(corsMiddleware);
+	// MIDDLEWARES
+	app.use(bodyParser); // Middleware for parsing JSON
+	app.use(sessionMiddleware); // Modularized session middleware
+	app.use(corsMiddleware); // Enable CORS for incoming requests (e.g., from the frontend running on localhost:5173)
 
 	// API routes
 	app.use("/api/events", eventsRoutes);
