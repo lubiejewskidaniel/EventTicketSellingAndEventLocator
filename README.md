@@ -30,6 +30,8 @@ EventEase is a full-stack event management platform that empowers users to disco
 ## 🔧 Folder Structure
 
 ## 📁 Project Folder Structure
+Below is my initial folder stucture however I still working on so deffinitely structure is changed now.
+Welcome to check code yourself and hel me with its development :) when finish all informations will be updated here
 
 ```bash
 eventease/
