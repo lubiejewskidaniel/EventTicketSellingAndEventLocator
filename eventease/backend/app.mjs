@@ -1,13 +1,11 @@
 // Import the core libraries needed to run an Express web server
 import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
 
 // Middleware libraries
 import bodyParser from "body-parser";
-import cors from "cors";
+import corsMiddleware from "./middlewares/cors.mjs";
 
-// Nasz nowy middleware sesji
+// Import the modularized CORS middleware from the middlewares directory
 import sessionMiddleware from "./middlewares/session.mjs";
 
 // Route files
@@ -25,14 +23,9 @@ export function createApp() {
 
 	// Modularized session middleware
 	app.use(sessionMiddleware);
-
-	// CORS middleware
-	app.use(
-		cors({
-			origin: "http://localhost:5173",
-			credentials: true,
-		})
-	);
+	// Enable CORS for incoming requests
+	// (e.g., from the frontend running on localhost:5173)
+	app.use(corsMiddleware);
 
 	// API routes
 	app.use("/api/events", eventsRoutes);
